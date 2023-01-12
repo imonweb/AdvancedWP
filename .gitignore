@@ -74,11 +74,12 @@ logs.log
 # "mu-plugins", "plugins", "themes" directory
 wp-content/*
 !wp-content/mu-plugins/
-!wp-content/plugins/
+# !wp-content/plugins/
 !wp-content/themes/
 
 #ignore specific plugins
 wp-content/plugins/hello.php 
+wp-content/plugins/akismet/* 
 
 #ignore specific themes
 wp-content/themes/twenty*/
