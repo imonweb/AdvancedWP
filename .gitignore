@@ -40,7 +40,7 @@ dwsync.xml
 # !wp-content/themes/
 
 #ignore specific plugins
-plugins/hello.php 
+/plugins/hello.php 
 plugins/akismet/
 
 #ignore specific themes
