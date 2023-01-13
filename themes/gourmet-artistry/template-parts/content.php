@@ -40,6 +40,22 @@
 	</header><!-- .entry-header -->
 
 	<div class="entry-content">
+		<div class="taxonomies"> 
+			<?php if('recipes' === get_post_type()): ?>
+			<div class="price-range">
+				<?php echo get_the_term_list( $post->ID, 'price_range', 'Price Range: ', ', ', '' ); ?>
+			</div>
+			<div class="meal-type">
+				<?php echo get_the_term_list( $post->ID, 'meal-type', 'Meal: ', ', ', '' ); ?>
+			</div>
+			<div class="course">
+				<?php echo get_the_term_list( $post->ID, 'course', 'Course: ', ', ', '' ); ?>
+			</div>
+			<div class="mood">
+				<?php echo get_the_term_list( $post->ID, 'mood', 'Mood: ', ', ', '' ); ?>
+			</div>
+		</div>
+		<?php endif; ?>
 		<?php
 			if(is_single()) {
 				the_content( sprintf(
