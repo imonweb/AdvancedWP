@@ -16,6 +16,18 @@ if ( ! function_exists( 'gourmet_artistry_setup' ) ) :
  * as indicating support for post thumbnails.
  */
 
+function print_recipes_posts($query) {
+	//not the admin but the main query
+	if(!is_admin() && $query->is_main_query()){
+		//add post to home
+		if(is_home()){
+
+			$query->set('post_type', array('post', 'recipes'));
+		}
+	}
+}
+add_action('pre_get_posts', 'print_recipes_posts');
+
 function gourmet_artistry_exerpt($length) {
 	return 30;
 }
@@ -117,6 +129,8 @@ function gourmet_artistry_scripts() {
 	wp_enqueue_style('foundation-styles', get_template_directory_uri() . '/css/app.css'  );
 
 	wp_enqueue_style('foundation-icons', get_template_directory_uri() . '/css/foundation-icons.css'  );
+
+	wp_enqueue_style('banner', get_template_directory_uri() . '/css/banner.css'  );
 
   wp_enqueue_script('jquery');
 	wp_enqueue_script( 'gourmet-artistry-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );

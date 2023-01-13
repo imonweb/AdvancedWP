@@ -18,7 +18,10 @@
 		<?php } else { ?>
 			<div class="large-6 columns">
 				<?php the_post_thumbnail('entry'); ?>
-			</div>
+				<?php if(is_home()):?>
+					<span class="alert label"><?php echo get_post_type(); ?></span>
+					<?php endif; ?>
+				</div>
 	<?php } ?>
 
 	<div class="<?php echo is_single() ? 'large-12' : 'large-6' ?> columns">
