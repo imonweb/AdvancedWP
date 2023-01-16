@@ -17,6 +17,45 @@ get_header(); ?>
 <?php get_template_part('template-parts/slider', 'entries'); ?>
 
 <div class="row">
+	<ul class="menu">
+		<?php 
+		$terms = get_terms(array(
+			'taxonomy'	=> 'course'
+		));
+		foreach($terms as $term) {
+			// echo $term->name . "<br />";
+			echo "<li><a href='#{$term->slug}'>{$term->name}</a></li>";
+		}
+		?>
+	</ul>
+</div>
+
+<div class="row">
+	<?php 
+		$args = array(
+			'posts_per_page'	=>	4,
+			'post_type'				=>	'recipes',
+			'order'						=>	'rand',
+			'tax_query'				=>	array(
+				array(
+					'taxonomy'	=>	'course',
+					'terms'			=>	'main-dishes',
+				)
+			)
+		);
+
+		$query = new WP_Query($args);
+		while( $query->have_posts() ):
+			$query->the_post();
+			the_title('<h1>','</h1>');
+		endwhile; 
+		wp_reset_postdata();
+
+	?>
+</div>
+
+
+<div class="row">
 	<div id="primary" class="content-area medium-8 columns">
 		<main id="main" class="site-main" role="main">
 			<h2 class="latest-entries text-center separator">Latest Entries</h2>
