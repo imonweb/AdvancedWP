@@ -63,6 +63,7 @@ function gourmet_artistry_setup() {
 	add_image_size( 'slider', 1200, 475, true );
 	add_image_size( 'entry', 619, 462, true );
 	add_image_size( 'single-image', 800, 300, true );
+	add_image_size(	'filter-recipes', 540, 800, true );
 
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menus( array(

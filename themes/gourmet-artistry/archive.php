@@ -8,7 +8,7 @@
  */
 
 get_header(); ?>
- 
+ <h1>hello from archive.php</h1>
 <div class="row">
 	<div id="primary" class="content-area medium-8 columns">
 		<main id="main" class="site-main" role="main">

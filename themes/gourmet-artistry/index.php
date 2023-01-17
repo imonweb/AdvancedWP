@@ -32,6 +32,8 @@ get_header(); ?>
 
 <div class="row">
 	<?php 
+	filter_course_terms('main-dishes');
+	/*
 		$args = array(
 			'posts_per_page'	=>	4,
 			'post_type'				=>	'recipes',
@@ -39,6 +41,7 @@ get_header(); ?>
 			'tax_query'				=>	array(
 				array(
 					'taxonomy'	=>	'course',
+					'field'			=>	'slug',
 					'terms'			=>	'main-dishes',
 				)
 			)
@@ -47,10 +50,10 @@ get_header(); ?>
 		$query = new WP_Query($args);
 		while( $query->have_posts() ):
 			$query->the_post();
-			the_title('<h1>','</h1>');
+			the_title('<h1>', '</h1>');
 		endwhile; 
 		wp_reset_postdata();
-
+	*/
 	?>
 </div>
 

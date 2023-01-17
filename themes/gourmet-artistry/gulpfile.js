@@ -43,7 +43,8 @@ gulp.task('browser-sync', function() {
 
     // Initializes browserSync
     browserSync.init(files, {
-      proxy: "http://localhost:8888/gourmetartistry/",
+      // proxy: "http://localhost:8888/gourmetartistry/",
+      proxy: "http://localhost/wp/Udemy/AdvancedWP/",
       notify: false
     });
 });
