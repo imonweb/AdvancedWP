@@ -16,6 +16,47 @@ if ( ! function_exists( 'gourmet_artistry_setup' ) ) :
  * as indicating support for post thumbnails.
  */
 
+function filter_course_terms($term) {
+	$args = array(
+		'posts_per_page' => 4,
+		'post_type' => 'recipes',
+		'orderby' => 'rand',
+		'tax_query' => array(
+			array(
+				'taxonomy' => 'course',
+				'field' => 'slug',
+				'terms' => $term,
+			)
+		),
+	);
+
+	$query = new WP_Query($args);
+ 	 echo '';
+	 while($query->have_posts() ): $query->the_post();
+
+  echo '<div class="small-6 medium-3 columns">';
+  echo '<div class="recipe">';
+  echo '<a href="' . get_the_permalink( $post->ID ) . '">';
+  echo get_the_post_thumbnail( $post->ID);
+  echo '</a>';
+  echo '<h2 class="text-center">' . get_the_title() . '</h2>';
+  echo '</div>';
+  echo '</div>';
+
+	// echo '';
+	// echo '';
+  // echo '';
+	// echo get_the_post_thumbnail( $post->ID, 'filter-recipes');
+	// echo '';
+	// echo '' . get_the_title() . '';
+	// echo '';
+	// echo '';
+
+	endwhile;
+	echo "";
+	wp_reset_postdata();
+}
+
 function print_recipes_posts($query) {
 	//not the admin but the main query
 	if(!is_admin() && $query->is_main_query()){
