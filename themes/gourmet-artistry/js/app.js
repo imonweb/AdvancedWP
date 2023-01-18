@@ -16,4 +16,18 @@ jQuery(function($){
     $(recipeLink).show()
     return false;
   });
+
+  /* AJAX  */
+
+  jQuery.ajax({
+    url: admin_url.ajax_url,
+    type: 'post',
+    data: {
+      action: 'recipe_breakfast'
+    }
+  }).done(function(response){
+    console.log(response);
+  });
+  
 });
+
