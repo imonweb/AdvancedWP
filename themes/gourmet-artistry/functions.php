@@ -31,29 +31,21 @@ function filter_course_terms($term) {
 	);
 
 	$query = new WP_Query($args);
- 	 echo '';
-	 while($query->have_posts() ): $query->the_post();
+ 	echo '<div id="' . $term . '" class="row">';
+	while($query->have_posts() ): $query->the_post();
 
   echo '<div class="small-6 medium-3 columns">';
   echo '<div class="recipe">';
   echo '<a href="' . get_the_permalink( $post->ID ) . '">';
-  echo get_the_post_thumbnail( $post->ID);
+  echo get_the_post_thumbnail( $post->ID, 'filter-recipes');
   echo '</a>';
-  echo '<h2 class="text-center">' . get_the_title() . '</h2>';
+  echo '<h3 class="text-center">' . get_the_title() . '</h3>';
   echo '</div>';
   echo '</div>';
-
-	// echo '';
-	// echo '';
-  // echo '';
-	// echo get_the_post_thumbnail( $post->ID, 'filter-recipes');
-	// echo '';
-	// echo '' . get_the_title() . '';
-	// echo '';
-	// echo '';
+ 
 
 	endwhile;
-	echo "";
+	echo "</div>";
 	wp_reset_postdata();
 }
 
