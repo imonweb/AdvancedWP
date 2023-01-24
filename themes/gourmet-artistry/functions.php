@@ -16,6 +16,9 @@ if ( ! function_exists( 'gourmet_artistry_setup' ) ) :
  * as indicating support for post thumbnails.
  */
 
+
+/*  Breakfast */
+
 function recipe_breakfast() {
 	$args = array(
 		'post_type'	=>	'recipes',
@@ -37,7 +40,7 @@ function recipe_breakfast() {
 	foreach($posts as $post){
 		setup_postdata( $post );
 		$recipes[] = array(
-			'post'	=> 	$post,
+			// 'post'	=> 	$post,
 			'id'		=>	$post->ID,
 			'name'	=>	$post->post_title,
 			'image'	=>	get_the_post_thumbnail( $post->ID, 'entry' ),
@@ -50,6 +53,81 @@ function recipe_breakfast() {
 }
 add_action('wp_ajax_nopriv_recipe_breakfast','recipe_breakfast');
 add_action('wp_ajax_recipe_breakfast', 'recipe_breakfast');
+
+/*  Lunch */
+
+function recipe_lunch() {
+	$args = array(
+		'post_type'	=>	'recipes',
+		'posts_per_page'	=>	3,
+		'orderby'	=>	'rand',
+		'tax_query'	=> array(
+			array(
+				'taxonomy'	=>	'meal-type',
+				'field'			=>	'slug',
+				'terms'			=>	'lunch'
+			)
+		)
+	);
+
+	$posts = get_posts($args);
+
+	$recipes = array();
+
+	foreach($posts as $post){
+		setup_postdata( $post );
+		$recipes[] = array(
+			// 'post'	=> 	$post,
+			'id'		=>	$post->ID,
+			'name'	=>	$post->post_title,
+			'image'	=>	get_the_post_thumbnail( $post->ID, 'entry' ),
+			'link'	=>	get_permalink($post->ID),
+		);
+	}
+	header("Content-type: application/json");
+	echo json_encode($recipes);
+	die;
+}
+add_action('wp_ajax_nopriv_recipe_lunch','recipe_lunch');
+add_action('wp_ajax_recipe_lunch', 'recipe_lunch');
+
+
+/*  Dinner */
+
+function recipe_dinner() {
+	$args = array(
+		'post_type'	=>	'recipes',
+		'posts_per_page'	=>	3,
+		'orderby'	=>	'rand',
+		'tax_query'	=> array(
+			array(
+				'taxonomy'	=>	'meal-type',
+				'field'			=>	'slug',
+				'terms'			=>	'dinner'
+			)
+		)
+	);
+
+	$posts = get_posts($args);
+
+	$recipes = array();
+
+	foreach($posts as $post){
+		setup_postdata( $post );
+		$recipes[] = array(
+			// 'post'	=> 	$post,
+			'id'		=>	$post->ID,
+			'name'	=>	$post->post_title,
+			'image'	=>	get_the_post_thumbnail( $post->ID, 'entry' ),
+			'link'	=>	get_permalink($post->ID),
+		);
+	}
+	header("Content-type: application/json");
+	echo json_encode($recipes);
+	die;
+}
+add_action('wp_ajax_nopriv_recipe_dinner','recipe_dinner');
+add_action('wp_ajax_recipe_dinner', 'recipe_dinner');
 
 
 

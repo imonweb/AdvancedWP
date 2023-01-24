@@ -40,4 +40,31 @@
     text-transform: uppercase;
   }
 
+  #recipes .recipe h3 {
+    font-size: 18px;
+    margin-top: 20px;
+  }
+
+  div.meal-recipes {
+    margin-bottom: 30px;
+  }
+
+  div.meal-recipes h2 {
+    font-size: 30px;
+    margin-top: 10px;
+    text-transform: uppercase;
+  }
+
+  div.meal-recipes span {
+    color: #87a837;
+  }
+
+  div.meal-recipes .content {
+    background-color: #87a837;
+  }
+
+  div.meal-recipes .content a {
+    color: #ffffff;
+  }
+
 }
