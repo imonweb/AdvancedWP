@@ -58,6 +58,39 @@
 				<?php echo get_the_term_list( $post->ID, 'mood', 'Mood: ', ', ', '' ); ?>
 			</div>
 		</div>
+
+		<!--========= metabox start ==========-->
+		<?php if(is_single()): ?>
+		<div class="extra-information">
+			<div class="row">	
+			<?php $calories = get_post_meta(get_the_ID(), 'input-metabox', true ); ?>
+			<?php if($calories) { ?>
+				<div class="calories small-6 columns">
+					<p>Calories: <?php echo $calories; ?></p>
+				</div>
+			<?php } ?>
+		</div> 
+
+		<div class="rating">
+			<?php $rating = get_post_meta(get_the_ID(), 'dropdown-metabox', true ); ?>
+			<?php if($rating) { ?>
+				<div class="rating small-6 columns">
+					<p>Rating: <em><?php echo $rating; ?> </em>(s)</p>
+				</div>
+			<?php } ?>
+		</div> 
+
+		<div class="recipe-description">
+			<?php $recipe_desc = get_post_meta(get_the_ID(), 'textarea-metabox', true ); ?>
+			<?php if($recipe_desc) { ?>
+				<blockquote>
+					<p><?php echo $recipe_desc; ?></p>
+				</blockquote>
+			<?php } ?>
+		</div> 
+		<?php endif; ?>
+
+		<!--========= metabox end ==========-->
 		<?php endif; ?>
 		<?php
 			if(is_single()) {

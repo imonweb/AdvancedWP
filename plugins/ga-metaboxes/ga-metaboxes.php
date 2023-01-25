@@ -32,12 +32,12 @@ function ga_metaboxes_container($post) {
     <br>
 
     <label for="dropdown-metabox">Rating:</label>
-    <select name="dropdwon-metabox">
+    <select name="dropdown-metabox">
       <?php 
         $options = array(1,2,3,4,5);
         foreach($options as $key => $value) {
           if($value == get_post_meta( $post->ID, "dropdown-metabox", true )) {
-            echo "<option selected>'{$value}'</option>";
+            echo '<option selected>'.$value.'</option>';
           } else {
             echo "<option value='{$value}'>{$value}</option>";
           }
@@ -55,15 +55,14 @@ add_action('save_post', 'ga_save_metaboxes');
 // function ga_save_metaboxes($post_id, $post, $update){
 function ga_save_metaboxes($post_id){
   if(!isset($_POST["meta-box-nonce"]) || !wp_verify_nonce($_POST["meta-box-nonce"], basename(__FILE__)))
-  // return $post_id;
-  return;
-
+  // return;
+  return $post_id;
 
   if(!current_user_can("edit_post", $post_id))
-  return;
+  return $post_id;
 
   if(defined("DOING_AUTOSAVE") && DOING_AUTOSAVE)
-  return;
+  return $post_id;
 
   $input_metabox = '';
   $textarea_metabox = '';
