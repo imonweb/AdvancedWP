@@ -6,6 +6,9 @@
  * @subpackage AdminUI
  * @author WebDevStudios
  * @since 1.0.0
+ * @license GPL-2.0+
+ *
+ * phpcs:disable WebDevStudios.All.RequireAuthor
  */
 
 /**
@@ -19,11 +22,18 @@ class cptui_admin_ui {
 	 * Return an opening `<tr>` tag.
 	 *
 	 * @since 1.0.0
+	 * @since 1.13.0 Added attributes parameter
 	 *
+	 * @param array $atts Array of custom attributes to add to the tag.
 	 * @return string $value Opening `<tr>` tag with attributes.
 	 */
-	public function get_tr_start() {
-		return '<tr valign="top">';
+	public function get_tr_start( $atts = [] ) {
+
+		$atts_str = '';
+		if ( ! empty( $atts ) ) {
+			$atts_str = ' ' . $this->get_custom_attributes( $atts );
+		}
+		return '<tr' . $atts_str . '>';
 	}
 
 	/**
@@ -41,11 +51,17 @@ class cptui_admin_ui {
 	 * Return an opening `<th>` tag.
 	 *
 	 * @since 1.0.0
+	 * @since 1.13.0 Added attributes parameter.
 	 *
+	 * @param array $atts Array of attributes to add to the tag.
 	 * @return string $value Opening `<th>` tag with attributes.
 	 */
-	public function get_th_start() {
-		return '<th scope="row">';
+	public function get_th_start( $atts = [] ) {
+		$atts_str = '';
+		if ( ! empty( $atts ) ) {
+			$atts_str = ' ' . $this->get_custom_attributes( $atts );
+		}
+		return "<th scope=\"row\"{$atts_str}>";
 	}
 
 	/**
@@ -63,11 +79,17 @@ class cptui_admin_ui {
 	 * Return an opening `<td>` tag.
 	 *
 	 * @since 1.0.0
+	 * @since 1.13.0 Added attributes parameter.
 	 *
+	 * @param array $atts Array of attributes to add to the tag.
 	 * @return string $value Opening `<td>` tag.
 	 */
-	public function get_td_start() {
-		return '<td>';
+	public function get_td_start( $atts = [] ) {
+		$atts_str = '';
+		if ( ! empty( $atts ) ) {
+			$atts_str = ' ' . $this->get_custom_attributes( $atts );
+		}
+		return "<td{$atts_str}>";
 	}
 
 	/**
@@ -86,11 +108,13 @@ class cptui_admin_ui {
 	 *
 	 * @since 1.2.0
 	 * @since 1.3.0 Added $args parameter.
+	 * @since 1.13.0 Added $atts parameter
 	 *
 	 * @param array $args Array of arguments.
+	 * @param array $atts Array of custom attributes for the tag.
 	 * @return string $value Opening `<fieldset>` tag.
 	 */
-	public function get_fieldset_start( $args = array() ) {
+	public function get_fieldset_start( $args = [], $atts = [] ) {
 		$fieldset = '<fieldset';
 
 		if ( ! empty( $args['id'] ) ) {
@@ -98,12 +122,16 @@ class cptui_admin_ui {
 		}
 
 		if ( ! empty( $args['classes'] ) ) {
-			$classes = 'class="' . implode( ' ', $args['classes'] ) . '"';
+			$classes   = 'class="' . implode( ' ', $args['classes'] ) . '"';
 			$fieldset .= ' ' . $classes;
 		}
 
 		if ( ! empty( $args['aria-expanded'] ) ) {
 			$fieldset .= ' aria-expanded="' . $args['aria-expanded'] . '"';
+		}
+
+		if ( ! empty( $atts ) ) {
+			$fieldset .= ' ' . $this->get_custom_attributes( $atts );
 		}
 
 		$fieldset .= ' tabindex="0">';
@@ -129,8 +157,12 @@ class cptui_admin_ui {
 	 *
 	 * @return string
 	 */
-	public function get_legend_start() {
-		return '<legend>';
+	public function get_legend_start( $atts = [] ) {
+		$atts_str = '';
+		if ( ! empty( $atts ) ) {
+			$atts_str = ' ' . $this->get_custom_attributes( $atts );
+		}
+		return "<legend class=\"screen-reader-text\"{$atts_str}>";
 	}
 
 	/**
@@ -166,7 +198,7 @@ class cptui_admin_ui {
 	 * @return string $value `<label>` tag with filled out parts.
 	 */
 	public function get_label( $label_for = '', $label_text = '' ) {
-		return '<label for="' . esc_attr( $label_for ) . '">' . strip_tags( $label_text ) . '</label>';
+		return '<label for="' . esc_attr( $label_for ) . '">' . wp_strip_all_tags( $label_text ) . '</label>';
 	}
 
 	/**
@@ -205,7 +237,7 @@ class cptui_admin_ui {
 	 * @return string Aria required attribute
 	 */
 	public function get_aria_required( $required = false ) {
-		$attr = ( $required ) ? 'true' : 'false';
+		$attr = $required ? 'true' : 'false';
 		return 'aria-required="' . $attr . '"';
 	}
 
@@ -230,7 +262,7 @@ class cptui_admin_ui {
 	 * @return string
 	 */
 	public function get_description( $help_text = '' ) {
-		return '<span class="cptui-field-description">' . $help_text . '</span>';
+		return '<p class="cptui-field-description description">' . $help_text . '</p>';
 	}
 
 	/**
@@ -289,9 +321,11 @@ class cptui_admin_ui {
 	 * @param array $args Arguments to use with the `<select>` input.
 	 * @return string $value Complete <select> input with options and selected attribute.
 	 */
-	public function get_select_input( $args = array() ) {
+	public function get_select_input( $args = [] ) {
 		$defaults = $this->get_default_input_parameters(
-			array( 'selections' => array() )
+			[
+				'selections' => [],
+			]
 		);
 
 		$args = wp_parse_args( $args, $defaults );
@@ -301,8 +335,12 @@ class cptui_admin_ui {
 			$value  = $this->get_tr_start();
 			$value .= $this->get_th_start();
 			$value .= $this->get_label( $args['name'], $args['labeltext'] );
-			if ( $args['required'] ) { $value .= $this->get_required_span(); }
-			if ( ! empty( $args['helptext'] ) ) { $value .= $this->get_help( $args['helptext'] ); }
+			if ( $args['required'] ) {
+				$value .= $this->get_required_span();
+			}
+			if ( ! empty( $args['helptext'] ) ) {
+				$value .= $this->get_help( $args['helptext'] );
+			}
 			$value .= $this->get_th_end();
 			$value .= $this->get_td_start();
 		}
@@ -311,15 +349,15 @@ class cptui_admin_ui {
 		if ( ! empty( $args['selections']['options'] ) && is_array( $args['selections']['options'] ) ) {
 			foreach ( $args['selections']['options'] as $val ) {
 				$result = '';
-				$bool = disp_boolean( $val['attr'] );
+				$bool   = disp_boolean( $val['attr'] );
 
 				if ( is_numeric( $args['selections']['selected'] ) ) {
 					$selected = disp_boolean( $args['selections']['selected'] );
-				} elseif ( in_array( $args['selections']['selected'], array( 'true', 'false' ) ) ) {
+				} elseif ( in_array( $args['selections']['selected'], [ 'true', 'false' ], true ) ) {
 					$selected = $args['selections']['selected'];
 				}
 
-				if ( ( ! empty( $selected ) ) && $selected === $bool ) {
+				if ( ! empty( $selected ) && $selected === $bool ) {
 					$result = ' selected="selected"';
 				} else {
 					if ( array_key_exists( 'default', $val ) && ! empty( $val['default'] ) ) {
@@ -358,21 +396,23 @@ class cptui_admin_ui {
 	 * @param array $args Arguments to use with the text input.
 	 * @return string Complete text `<input>` with proper attributes.
 	 */
-	public function get_text_input( $args = array() ) {
+	public function get_text_input( $args = [] ) {
 		$defaults = $this->get_default_input_parameters(
-			array(
-				'maxlength'     => '',
-				'onblur'        => '',
-			)
+			[
+				'maxlength' => '',
+				'onblur'    => '',
+			]
 		);
-		$args = wp_parse_args( $args, $defaults );
+		$args     = wp_parse_args( $args, $defaults );
 
 		$value = '';
 		if ( $args['wrap'] ) {
 			$value .= $this->get_tr_start();
 			$value .= $this->get_th_start();
 			$value .= $this->get_label( $args['name'], $args['labeltext'] );
-			if ( $args['required'] ) { $value .= $this->get_required_span(); }
+			if ( $args['required'] ) {
+				$value .= $this->get_required_span();
+			}
 			$value .= $this->get_th_end();
 			$value .= $this->get_td_start();
 		}
@@ -394,6 +434,12 @@ class cptui_admin_ui {
 		if ( ! empty( $args['aftertext'] ) ) {
 			if ( $args['placeholder'] ) {
 				$value .= ' ' . $this->get_placeholder( $args['aftertext'] );
+			}
+		}
+
+		if ( ! empty( $args['data'] ) ) {
+			foreach ( $args['data'] as $dkey => $dvalue ) {
+				$value .= " data-{$dkey}=\"{$dvalue}\"";
 			}
 		}
 
@@ -423,14 +469,14 @@ class cptui_admin_ui {
 	 * @param array $args Arguments to use with the textarea input.
 	 * @return string $value Complete <textarea> input with proper attributes.
 	 */
-	public function get_textarea_input( $args = array() ) {
+	public function get_textarea_input( $args = [] ) {
 		$defaults = $this->get_default_input_parameters(
-			array(
+			[
 				'rows' => '',
 				'cols' => '',
-			)
+			]
 		);
-		$args = wp_parse_args( $args, $defaults );
+		$args     = wp_parse_args( $args, $defaults );
 
 		$value = '';
 
@@ -438,7 +484,9 @@ class cptui_admin_ui {
 			$value .= $this->get_tr_start();
 			$value .= $this->get_th_start();
 			$value .= $this->get_label( $args['name'], $args['labeltext'] );
-			if ( $args['required'] ) { $value .= $this->get_required_span(); }
+			if ( $args['required'] ) {
+				$value .= $this->get_required_span();
+			}
 			$value .= $this->get_th_end();
 			$value .= $this->get_td_start();
 		}
@@ -469,24 +517,25 @@ class cptui_admin_ui {
 	 * @param array $args Arguments to use with the checkbox input.
 	 * @return string $value Complete checkbox `<input>` with proper attributes.
 	 */
-	public function get_check_input( $args = array() ) {
+	public function get_check_input( $args = [] ) {
 		$defaults = $this->get_default_input_parameters(
-			array(
-				'checkvalue'        => '',
-				'checked'           => 'true',
-				'checklisttext'     => '',
-				'default'           => false,
-			)
+			[
+				'checkvalue'    => '',
+				'checked'       => 'true',
+				'checklisttext' => '',
+				'default'       => false,
+			]
 		);
-
-		$args = wp_parse_args( $args, $defaults );
+		$args     = wp_parse_args( $args, $defaults );
 
 		$value = '';
 		if ( $args['wrap'] ) {
 			$value .= $this->get_tr_start();
 			$value .= $this->get_th_start();
 			$value .= $args['checklisttext'];
-			if ( $args['required'] ) { $value .= $this->get_required_span(); }
+			if ( $args['required'] ) {
+				$value .= $this->get_required_span();
+			}
 			$value .= $this->get_th_end();
 			$value .= $this->get_td_start();
 		}
@@ -515,11 +564,32 @@ class cptui_admin_ui {
 	 * @param array $args Arguments to use with the button input.
 	 * @return string Complete button `<input>`.
 	 */
-	public function get_button( $args = array() ) {
-		$value = '';
-		$value .= '<input id="' . $args['id'] . '" class="button" type="button" value="' . $args['textvalue'] . '" />';
+	public function get_button( $args = [] ) {
+		$value   = '';
+		$classes = isset( $args['classes'] ) ? $args['classes'] : '';
+		$value  .= '<input id="' . $args['id'] . '" class="button ' . $classes . '" type="button" value="' . $args['textvalue'] . '" />';
 
 		return $value;
+	}
+
+	/**
+	 * Returns an HTML block for previewing the menu icon.
+	 *
+	 * @param string $menu_icon URL or a name of the dashicons class.
+	 *
+	 * @return string $value HTML block with a layout of the menu icon preview.
+	 * @since 1.8.1
+	 */
+	public function get_menu_icon_preview( $menu_icon = '' ) {
+		$content = '';
+		if ( ! empty( $menu_icon ) ) {
+			$content = '<img src="' . $menu_icon . '">';
+			if ( 0 === strpos( $menu_icon, 'dashicons-' ) ) {
+				$content = '<div class="dashicons-before ' . $menu_icon . '"></div>';
+			}
+		}
+
+		return '<div id="menu_icon_preview">' . $content . '</div>';
 	}
 
 	/**
@@ -530,9 +600,9 @@ class cptui_admin_ui {
 	 * @param array $additions Arguments array to merge with our defaults.
 	 * @return array $value Merged arrays for our default parameters.
 	 */
-	public function get_default_input_parameters( $additions = array() ) {
+	public function get_default_input_parameters( $additions = [] ) {
 		return array_merge(
-			array(
+			[
 				'namearray'      => '',
 				'name'           => '',
 				'textvalue'      => '',
@@ -543,8 +613,27 @@ class cptui_admin_ui {
 				'required'       => false,
 				'wrap'           => true,
 				'placeholder'    => true,
-			),
+			],
 			(array) $additions
 		);
+	}
+
+	/**
+	 * Return combined attributes string.
+	 *
+	 * @param array $attributes Array of attributes to combine.
+	 *
+	 * @return string
+	 * @since 1.13.0
+	 */
+	public function get_custom_attributes( $attributes = [] ) {
+		$formatted = [];
+		if ( ! empty( $attributes ) ) {
+			foreach ( $attributes as $key => $attribute ) {
+				$formatted[] = "$key=\"$attribute\"";
+			}
+		}
+
+		return implode( ' ', $formatted );
 	}
 }
