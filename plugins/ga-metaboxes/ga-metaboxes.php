@@ -12,12 +12,12 @@
  * text-domain: ga-metaboxes
  **/
 
- function ga_add_metaboxes() {
-  add_meta_box('ga-metaboxes','Gourmet Artistry Metaboxes', 'ga_metaboxes_container','recipes', 'normal', 'high', null);
- }
+function ga_add_metaboxes() {
+add_meta_box('ga-metaboxes','Gourmet Artistry Metaboxes', 'ga_metaboxes_container','recipes', 'normal', 'high', null);
+}
 
- add_action('add_meta_boxes','ga_add_metaboxes');
 
+add_action('add_meta_boxes','ga_add_metaboxes');
 
 function ga_metaboxes_container($post) {
   wp_nonce_field(basename(__FILE__),"meta-box-nonce");
@@ -83,3 +83,6 @@ function ga_save_metaboxes($post_id){
   }
   update_post_meta($post_id, "dropdown-metabox", $dropdown_metabox);
 }
+
+
+
