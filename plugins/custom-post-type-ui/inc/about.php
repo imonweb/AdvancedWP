@@ -6,12 +6,35 @@
  * @subpackage About
  * @author WebDevStudios
  * @since 1.3.0
+ * @license GPL-2.0+
  */
+
+// phpcs:disable WebDevStudios.All.RequireAuthor
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+/**
+ * Enqueue our Custom Post Type UI assets.
+ *
+ * @since 1.6.0
+ */
+function cptui_about_assets() {
+	$current_screen = get_current_screen();
+
+	if ( ! is_object( $current_screen ) || 'toplevel_page_cptui_main_menu' !== $current_screen->base ) {
+		return;
+	}
+
+	if ( wp_doing_ajax() ) {
+		return;
+	}
+
+	wp_enqueue_style( 'cptui-css' );
+}
+add_action( 'admin_enqueue_scripts', 'cptui_about_assets' );
 
 /**
  * Display our primary menu page.
@@ -30,8 +53,9 @@ function cptui_settings() {
 		 *
 		 * @since 1.0.0
 		 */
-		do_action( 'cptui_main_page_start' ); ?>
-		<h1><?php esc_html_e( 'Custom Post Type UI', 'custom-post-type-ui' ); ?> <?php echo CPTUI_VERSION; ?></h1>
+		do_action( 'cptui_main_page_start' );
+		?>
+		<h1><?php esc_html_e( 'Custom Post Type UI', 'custom-post-type-ui' ); ?> <?php echo esc_html( CPTUI_VERSION ); ?></h1>
 
 		<?php
 
@@ -42,34 +66,41 @@ function cptui_settings() {
 		 */
 		do_action( 'cptui_main_page_after_header' );
 		?>
-
-		<div class="about-text cptui-about-text">
-			<?php esc_html_e( 'Thank you for choosing Custom Post Type UI! We hope that your experience with our plugin makes creating post types and taxonomies and organizing your content quick and easy.', 'custom-post-type-ui' ); ?>
+		<div class="cptui-intro-devblock">
+			<p class="about-text cptui-about-text">
+				<?php esc_html_e( 'Thank you for choosing Custom Post Type UI! We hope that your experience with our plugin makes creating post types and taxonomies and organizing your content quick and easy.', 'custom-post-type-ui' ); ?>
+			</p>
+			<div class="cptui-badge"></div>
 		</div>
-		<div class="cptui-badge"></div>
-
 		<?php
 		/**
 		 * Fires before the About Page changelog.
 		 *
 		 * @since 1.4.0
 		 */
-		do_action( 'cptui_main_page_before_changelog' ); ?>
+		do_action( 'cptui_main_page_before_changelog' );
+		?>
 
-		<h2><?php printf( esc_html__( "What's new in version %s", 'custom-post-type-ui' ), CPTUI_VERSION ); ?></h2>
+		<h2>
+			<?php
+			printf(
+			// translators: Placeholder will hold the plugin version.
+				esc_html__( "What's new in version %s", 'custom-post-type-ui' ),
+				esc_html( CPTUI_VERSION )
+			);
+			?>
+		</h2>
 		<div class="changelog about-integrations">
 			<div class="cptui-feature feature-section col three-col">
 				<div class="col">
-					<h2><?php esc_html_e( 'Renamed the Import/Export menu.', 'custom-post-type-ui' ); ?></h2>
-					<p><?php esc_html_e( 'As Custom Post Type UI has evolved, we have found need to rename one of the menus. The Import/Export menu has now been renamed "Tools" to better reflect the utilities provided there.', 'custom-post-type-ui' ); ?></p>
-				</div>
-				<div class="col">
-					<h2><?php esc_html_e( 'Eliminated page refresh need for importing.', 'custom-post-type-ui' ); ?></h2>
-					<p><?php esc_html_e( 'Previously we eliminated page refresh need while creating new post types and taxonomies. We noticed this did not apply when importing settings. With this latest release, we have amended the issue.', 'custom-post-type-ui' ); ?></p>
-				</div>
-				<div class="col last-feature">
-					<h2><?php esc_html_e( 'Multiple issue fixes.', 'custom-post-type-ui' ); ?></h2>
-					<p><?php esc_html_e( 'We have fixed the following issues in this version. Added "action" as a reserved taxonomy name. Updated `get_terms()` handling for WordPress 4.5. Fixed PHP notices related to rewrite indexes, that were present since version 1.0.6. Prevented triggering a slug conversion when tabbing through the edit screen.', 'custom-post-type-ui' ) ?></p>
+					<h2><?php esc_html_e( 'Post type descriptions', 'custom-post-type-ui' ); ?></h2>
+					<p><?php esc_html_e( 'We have updated a number of details around the post type description field. First we addressed issues with the Tools area when descriptions included quotes. Second we fixed an issue around stripping HTML from the field from previous security updates.', 'custom-post-type-ui' ); ?></p>
+					<h2><?php esc_html_e( 'Miscellaneous code cleanup and separation.', 'custom-post-type-ui' ); ?></h2>
+					<p><?php esc_html_e( 'Largely under the hood, but we have done some separation of our code and done more to help ensure code quality.', 'custom-post-type-ui' ); ?></p>
+					<h2><?php esc_html_e( 'Branding.', 'custom-post-type-ui' ); ?></h2>
+					<p><?php esc_html_e( 'We updated our branding for the plugin. Both within our UI but also on WordPress.org', 'custom-post-type-ui' ); ?></p>
+					<h2><?php esc_html_e( 'Miscellaneous.', 'custom-post-type-ui' ); ?></h2>
+					<p><?php esc_html_e( 'Added notes about some post type features also needing theme support declared for them to work. Fixed a pluralization issue with our UI and forms.', 'custom-post-type-ui' ); ?></p>
 				</div>
 			</div>
 		</div>
@@ -82,7 +113,8 @@ function cptui_settings() {
 			 *
 			 * @since 1.3.0
 			 */
-			do_action( 'cptui_main_page_extra_notes' ); ?>
+			do_action( 'cptui_main_page_extra_notes' );
+			?>
 		</div>
 	</div>
 	<?php
@@ -94,6 +126,7 @@ function cptui_settings() {
  * @since 1.4.0
  */
 function cptui_pluginize_content() {
+	// translators: Placeholder will hold the name of the author of the plugin.
 	echo '<h1>' . sprintf( esc_html__( 'More from %s', 'custom-post-type-ui' ), 'WebDevStudios' ) . '</h1>';
 	echo '<div class="wdspromos-about">';
 	$ads = cptui_get_ads();
@@ -111,7 +144,7 @@ function cptui_pluginize_content() {
 			printf(
 				'<p><a href="%s">%s</a></p>',
 				esc_url( $ad['url'] ),
-				$the_ad
+				$the_ad // phpcs:ignore
 			);
 		}
 	}
@@ -131,59 +164,17 @@ function cptui_about_page_newsletter() {
 	}
 
 	?>
-	<h3><?php esc_html_e( 'Stay informed', 'custom-post-type-ui' ); ?></h3>
+	<div class='wdsoctosignup'>
+		<?php
+		cptui_newsletter_form();
+		?>
+	</div>
+
 	<?php
-	cptui_about_page_newsletter_form();
 
 	return '';
 }
 add_action( 'cptui_main_page_before_changelog', 'cptui_about_page_newsletter' );
-
-/**
- * Outputs our newsletter signup form.
- *
- * @since 1.4.0
- *
- * @internal
- */
-function cptui_about_page_newsletter_form() {
-	?>
-	<!-- Begin MailChimp Signup Form -->
-	<link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-	<div id="mc_embed_signup">
-		<form action="//webdevstudios.us1.list-manage.com/subscribe/post?u=67169b098c99de702c897d63e&amp;id=9cb1c7472e" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-			<div id="mc_embed_signup_scroll">
-
-				<p>
-					<strong><?php esc_html_e( 'Wanna make the most of WordPress? Sign up for the Pluginize newsletter and get access to discounts, plugin announcements, and more!', 'custom-post-type-ui' ); ?></strong>
-				</p>
-				<div class="mc-field-group">
-					<label for="mce-EMAIL"><?php esc_html_e( 'Email Address', 'custom-post-type-ui' ); ?></label>
-					<input tabindex="-1" type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
-				</div>
-				<div id="mce-responses" class="clear">
-					<div class="response" id="mce-error-response" style="display:none"></div>
-					<div class="response" id="mce-success-response" style="display:none"></div>
-				</div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-				<div style="position: absolute; left: -5000px;" aria-hidden="true">
-					<input type="text" name="b_67169b098c99de702c897d63e_9cb1c7472e" tabindex="-1" value=""></div>
-				<div class="clear">
-					<input type="submit" value="<?php esc_attr_e( 'Subscribe', 'custom-post-type-ui' ); ?>" name="subscribe" id="mc-embedded-subscribe" class="button" tabindex="-1">
-				</div>
-			</div>
-		</form>
-	</div>
-	<script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script>
-	<script type='text/javascript'>(function ($) {
-			window.fnames = new Array();
-			window.ftypes = new Array();
-			fnames[0] = 'EMAIL';
-			ftypes[0] = 'email';
-		}(jQuery));
-		var $mcj = jQuery.noConflict(true);</script>
-	<!--End mc_embed_signup-->
-	<?php
-}
 
 /**
  * Marks site as not new at the end of the about/main page.

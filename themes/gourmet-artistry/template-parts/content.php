@@ -116,5 +116,10 @@
 		?>
 	</div><!-- .entry-content -->
 
+
+	<a id="next_post_btn" class="previous_post_link" data-previous-post="<?php echo  get_previous_post()->ID  ; ?>">
+				Previous Post
+	</a>
+
 	</div>
 </article><!-- #post-## -->

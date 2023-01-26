@@ -23,7 +23,6 @@
           <?php for($i=0; $i<$entries; $i++) { ?>
               <button class="<?php echo $i==0 ? 'is-active' : '' ?>" data-slide="<?php echo $i; ?>"></button>
           <?php } ?>
-
       </nav>
   </div>
 </div>

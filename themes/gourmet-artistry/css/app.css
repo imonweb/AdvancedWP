@@ -103,3 +103,23 @@ div.meal-recipes .content a {
   color:#ffffff;
   font-size: 18px;
 }
+
+
+
+.menu-main-navigation-container #primary-menu{
+	display: none;
+}
+
+/* Small menu. */
+.menu-toggle,
+#site-navigation.toggled #primary-menu {
+	display: block;
+}
+
+
+@media (min-width:768px) {
+  #site-navigation > span, 
+  .main-navigation button.menu-icon {
+    display:none;
+  }
+}

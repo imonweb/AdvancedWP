@@ -264,13 +264,17 @@ function gourmet_artistry_scripts() {
   wp_enqueue_style('banner', get_template_directory_uri() . '/css/banner.css'  );
 
   wp_enqueue_script('jquery');
+  
 	wp_enqueue_script( 'gourmet-artistry-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
 
 	wp_enqueue_script( 'gourmet-artistry-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
 
 	wp_enqueue_script('foundation-js', get_template_directory_uri() . '/js/foundation.js', array('jquery'), '20151215', true );
+
   wp_enqueue_script('what-input', get_template_directory_uri() . '/js/what-input.min.js', array(), '20151215', true );
+
   wp_enqueue_script('filterizr', get_template_directory_uri() . '/js/jquery.filterizr.js', array(), '20151215', true );
+
   wp_enqueue_script('app-js', get_template_directory_uri() . '/js/app.js', array(), '20151215', true );
 
 	wp_localize_script( 'app-js', 'admin_url', array(

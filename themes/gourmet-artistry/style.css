@@ -605,11 +605,17 @@ a:active {
 .main-navigation .current-menu-ancestor > a {
 }
 
+.menu-main-navigation-container #primary-menu{
+	display: none;
+}
+
 /* Small menu. */
 .menu-toggle,
-.main-navigation.toggled ul {
+#site-navigation.toggled #primary-menu {
 	display: block;
 }
+
+
 
 @media screen and (min-width: 37.5em) {
 	.menu-toggle {

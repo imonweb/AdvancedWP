@@ -14,7 +14,7 @@
 
 get_header(); ?>
 
-<?php get_template_part('template-parts/slider', 'entries'); ?>
+<?php // get_template_part('template-parts/slider', 'entries'); ?>
 
 <div class="meal-recipes row">
 	<h2 id="time" class="text-center">Make this for: </h2>
