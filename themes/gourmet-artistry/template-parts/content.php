@@ -18,10 +18,12 @@
 		<?php } else { ?>
 			<div class="large-6 columns">
 				<?php the_post_thumbnail('entry'); ?>
-				<?php if(is_home()):?>
-					<span class="alert label"><?php echo get_post_type(); ?></span>
-					<?php endif; ?>
-				</div>
+				<?php
+					if( is_home()): ?>
+						<span class="alert label"><?php echo get_post_type(); ?></span>
+				<?php endif; ?>
+			</div>
+
 	<?php } ?>
 
 	<div class="<?php echo is_single() ? 'large-12' : 'large-6' ?> columns">
@@ -43,54 +45,57 @@
 	</header><!-- .entry-header -->
 
 	<div class="entry-content">
-		<div class="taxonomies"> 
-			<?php if('recipes' === get_post_type()): ?>
-			<div class="price-range">
-				<?php echo get_the_term_list( $post->ID, 'price_range', 'Price Range: ', ', ', '' ); ?>
-			</div>
-			<div class="meal-type">
-				<?php echo get_the_term_list( $post->ID, 'meal-type', 'Meal: ', ', ', '' ); ?>
-			</div>
-			<div class="course">
-				<?php echo get_the_term_list( $post->ID, 'course', 'Course: ', ', ', '' ); ?>
-			</div>
-			<div class="mood">
-				<?php echo get_the_term_list( $post->ID, 'mood', 'Mood: ', ', ', '' ); ?>
-			</div>
-		</div>
-
-		<!--========= metabox start ==========-->
-		<?php if(is_single()): ?>
-		<div class="extra-information">
-			<div class="row">	
-			<?php $calories = get_post_meta(get_the_ID(), 'input-metabox', true ); ?>
-			<?php if($calories) { ?>
-				<div class="calories small-6 columns">
-					<p>Calories: <?php echo $calories; ?></p>
+		<?php if('recipes' === get_post_type()): ?>
+				<div class="taxonomies">
+						<div class="price-range">
+							<?php
+								echo get_the_term_list( $post->ID, 'price_range', 'Price Range: ', ', ', '' );
+							?>
+						</div>
+						<div class="meal-type">
+							<?php
+								echo get_the_term_list( $post->ID, 'meal-type', 'Meal: ', ', ', '' );
+							?>
+						</div>
+						<div class="course">
+							<?php
+								echo get_the_term_list( $post->ID, 'course', 'Course: ', ', ', '' );
+							?>
+						</div>
+						<div class="mood">
+							<?php
+									echo get_the_term_list( $post->ID, 'mood', 'Mood: ', ', ', '' );
+							?>
+						</div>
 				</div>
-			<?php } ?>
-		</div> 
 
-		<div class="rating">
-			<?php $rating = get_post_meta(get_the_ID(), 'dropdown-metabox', true ); ?>
-			<?php if($rating) { ?>
-				<div class="rating small-6 columns">
-					<p>Rating: <em><?php echo $rating; ?> </em>(s)</p>
-				</div>
-			<?php } ?>
-		</div> 
+					<?php if(is_single()): ?>
+							<div class="extra-information">
+								<div class="row">
 
-		<div class="recipe-description">
-			<?php $recipe_desc = get_post_meta(get_the_ID(), 'textarea-metabox', true ); ?>
-			<?php if($recipe_desc) { ?>
-				<blockquote>
-					<p><?php echo $recipe_desc; ?></p>
-				</blockquote>
-			<?php } ?>
-		</div> 
-		<?php endif; ?>
+										<?php $calories = get_post_meta(get_the_ID(), 'input-metabox', true ); ?>
+										<?php if($calories) {?>
+											<div class="calories small-6 columns">
+														<p>Calories: <em> <?php echo $calories; ?></em></p>
+											</div>
+										<?php } ?>
 
-		<!--========= metabox end ==========-->
+										<?php $rating = get_post_meta(get_the_ID(), 'dropdown-metabox', true ); ?>
+										<?php if($rating) {?>
+											<div class="rating small-6 columns">
+														<p>Rating: <em> <?php echo $rating; ?></em> Stars</p>
+											</div>
+										<?php } ?>
+								</div> <!--.row-->
+
+									<?php $description = get_post_meta(get_the_ID(), 'textarea-metabox', true ); ?>
+									<?php if($description) {?>
+												<blockquote><p><?php echo $description; ?></p></blockquote>
+									<?php } ?>
+							</div> <!--.extra-information -->
+				<?php endif; //is_single() ?>
+
+
 		<?php endif; ?>
 		<?php
 			if(is_single()) {

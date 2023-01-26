@@ -22,55 +22,28 @@ get_header(); ?>
 
 	</ul>
 </div>
- 
- 
-	<h2 class="text-center">Filter by Course:</h2>
-	<div id="filter">
-		
-		<div class="menu-centered">
-			<ul class="menu">
-				<?php 
-				$terms = get_terms(array(
-					'taxonomy'	=> 'course'
-				));
-				foreach($terms as $term) {
-					// echo $term->name . "<br />";
-					echo "<li><a href='#{$term->slug}'>{$term->name}</a></li>";
-				}
-				?>
-			</ul>
-		</div>
-		<div id="recipes">
-			<?php foreach($terms as $term) { ?>
-			<?php filter_course_terms($term->slug); ?>
-			<?php } ?>
-		</div>
-	</div>
- 
-	<?php 
-	// filter_course_terms('appetizers');
-	/*
-		$args = array(
-			'posts_per_page'	=>	4,
-			'post_type'				=>	'recipes',
-			'order'						=>	'rand',
-			'tax_query'				=>	array(
-				array(
-					'taxonomy'	=>	'course',
-					'field'			=>	'slug',
-					'terms'			=>	'main-dishes',
-				)
-			)
-		);
 
-		$query = new WP_Query($args);
-		while( $query->have_posts() ): $query->the_post();
-			the_title('<h1>', '</h1>');
-		endwhile; 
-		wp_reset_postdata();
-	*/
-	?>
-</div>
+<div id="filter">
+		<h2 class="text-center">Filter by Course: </h2>
+
+				<div class="menu-centered">
+						<ul class="menu">
+						<?php
+							$terms = get_terms(array(
+									'taxonomy' => 'course'
+							) );
+							foreach($terms as $term){
+								echo "<li><a href='#{$term->slug}'>{$term->name}</a></li>";
+							}
+						?>
+						</ul>
+				</div> <!--.menu-centered-->
+				<div id="recipes">
+					<?php foreach($terms as $term){
+							filter_course_terms($term->slug);
+					} ?>
+				</div> <!--#recipes-->
+</div> <!--#filter-->
 
 
 <div class="row">

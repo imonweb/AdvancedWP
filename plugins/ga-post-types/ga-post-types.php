@@ -224,4 +224,3 @@ function ga_events_post_type() {
     // register the post Type
     register_post_type( 'events', $args);
 }
-

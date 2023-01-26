@@ -9,14 +9,17 @@
 
 get_header(); ?>
 
+
+
 <div class="row">
 	<div id="primary" class="content-area medium-8 columns">
 		<main id="main" class="site-main" role="main">
-    <?php 
-      $term = get_queried_object();
-      $taxonomy = get_taxonomy($term->taxonomy);
-      echo "<h1>" . $taxonomy->label . ":" . $term->name . "</h1>"; 
-    ?>
+        <?php
+          $term = get_queried_object();
+          $taxonomy = get_taxonomy( $term->taxonomy );
+          echo "<h1>".  $taxonomy->label . ": " . $term->name . '</h1>';
+        ?>
+
 		<?php
 		if ( have_posts() ) : ?>
 

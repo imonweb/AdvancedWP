@@ -892,3 +892,9 @@ object {
 .gallery-caption {
 	display: block;
 }
+
+/** FILTER **/
+
+ul.simplefilter{
+	margin-bottom: 20px!important;
+}
